@@ -18,3 +18,25 @@ last_run = helpers.get_last_run(run_activities)
 all_runs = helpers.get_all_runs(run_activities)
 all_runs_last_year = helpers.get_all_runs(run_activities_last_year)
 
+
+# Reverse rows using iloc() Function
+run_activities_last_year_reverse = run_activities_last_year.iloc[::-1]
+run_activities_last_year_reverse['total'] = np.cumsum(run_activities_last_year_reverse['distance'])
+
+run_activities_reverse = run_activities.iloc[::-1]
+run_activities_reverse['total'] = np.cumsum(run_activities_reverse['distance'])
+
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = plt.axes()
+x = run_activities_last_year_reverse['total']
+y= run_activities_last_year_reverse['start_date_local']
+ax.plot(y,x,color="red")
+x = run_activities_reverse['total']
+y= run_activities_reverse['start_date_local']
+ax.plot(y,x,color="black")
+#plt.axis('off')
+plt.show()
+#plt.savefig("test.png", bbox_inches='tight')
+
+
