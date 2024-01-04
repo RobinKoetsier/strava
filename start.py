@@ -1,18 +1,23 @@
 import requests
 import pandas as pd
 import polyline
-def authorize_and_get_data():
-    auth_url = "https://www.strava.com/oauth/token"
-    activites_url = "https://www.strava.com/api/v3/athlete/activities"
+from keys import payload
 
-    payload = {
-        'client_id': "119119",
-        'client_secret': 'b5bf66e3e833464b266c4b985d9c64de65948624',
-        'refresh_token': "7574f747531e2f9fd3e296d540baffc0e86beb8e",
+"""
+imports payload with following structure:
+payload = {
+        'client_id': <client id>,
+        'client_secret': <client secret>,
+        'refresh_token': <refresh token>,
         'grant_type': "refresh_token",
         'f': 'json'
     }
+"""
 
+def authorize_and_get_data():
+    auth_url = "https://www.strava.com/oauth/token"
+    activites_url = "https://www.strava.com/api/v3/athlete/activities"
+    
     print("Requesting Token...\n")
     res = requests.post(auth_url, data=payload, verify=False)
     access_token = res.json()['access_token']
