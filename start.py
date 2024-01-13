@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import polyline
-from keys import payload
+#from keys import payload
 
 """
 imports payload with following structure:
@@ -13,6 +13,14 @@ payload = {
         'f': 'json'
     }
 """
+
+payload = {
+        'client_id': st.secrets["client_id"],
+        'client_secret': st.secrets['client_secret'],
+        'refresh_token': st.secrets['refresh_token'],
+        'grant_type': "refresh_token",
+        'f': 'json'
+    }
 
 def authorize_and_get_data():
     auth_url = "https://www.strava.com/oauth/token"
