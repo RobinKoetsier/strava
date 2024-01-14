@@ -3,6 +3,8 @@ import datetime
 import start
 import helpers
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 # Set your Strava API credentials
 CLIENT_ID = '119119'
 CLIENT_SECRET = 'b5bf66e3e833464b266c4b985d9c64de65948624'
@@ -47,10 +49,17 @@ def main():
         
     ]
 )
-        
         tab1_1, tab1_2, tab1_3, tab1_4 = st.tabs(["Last Run", "Totals 2024", "Totals 2023", "Totals"])
         
         with tab1_1:
+
+            ride_longitudes = [coordinate[1] for coordinate in run_activities['map.polyline'][0]]
+            ride_latitudes = [coordinate[0] for coordinate in run_activities['map.polyline'][0]]
+            fig, ax = plt.subplots()
+            ax.plot(ride_longitudes,ride_latitudes,'r-', alpha=1,color="blue")
+            plt.axis('off') 
+            plt.style.use('dark_background')
+            st.pyplot(fig,clear_figure=True)
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.write(last_run[0])
@@ -93,7 +102,21 @@ def main():
                 st.write(all_runs_last_year[5]) 
 
         with tab1_4:
-            
+                        
+            all_ride_longitudes = []
+            all_ride_latitudes = []
+            fig, ax = plt.subplots()
+            for map in run_activities['map.polyline']:
+                ride_longitudes = [coordinate[1] for coordinate in map]
+                ride_latitudes = [coordinate[0] for coordinate in map]
+                if 4.637 < np.mean(ride_longitudes) < 4.919:
+                    if 51.450 < np.mean(ride_latitudes) < 51.657:
+                        all_ride_latitudes += ride_latitudes
+                        all_ride_longitudes += ride_longitudes
+                        ax.plot(ride_longitudes,ride_latitudes,'r-', alpha=1,color="blue")
+            plt.axis('off') 
+            plt.style.use('dark_background')
+            st.pyplot(fig)
             st.dataframe(df, use_container_width=True)
             col1, col2, col3 = st.columns(3)
             with col1:

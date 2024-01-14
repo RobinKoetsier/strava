@@ -26,3 +26,29 @@ run_activities_last_year_reverse['total'] = np.cumsum(run_activities_last_year_r
 
 run_activities_reverse = run_activities.iloc[::-1]
 run_activities_reverse['total'] = np.cumsum(run_activities_reverse['distance'])
+
+ride_longitudes = [coordinate[1] for coordinate in run_activities['map.polyline'][0]]
+ride_latitudes = [coordinate[0] for coordinate in run_activities['map.polyline'][0]]
+fig, ax = plt.subplots()
+ax.plot(ride_longitudes,ride_latitudes,'r-', alpha=1,color="blue")
+plt.axis('off') 
+plt.style.use('dark_background')
+plt.show()
+
+all_ride_longitudes = []
+all_ride_latitudes = []
+fig, ax = plt.subplots()
+for map in run_activities['map.polyline']:
+    ride_longitudes = [coordinate[1] for coordinate in map]
+    ride_latitudes = [coordinate[0] for coordinate in map]
+    if 4.637 < np.mean(ride_longitudes) < 4.919:
+        if 51.450 < np.mean(ride_latitudes) < 51.657:
+            all_ride_latitudes += ride_latitudes
+            all_ride_longitudes += ride_longitudes
+            ax.plot(ride_longitudes,ride_latitudes,'r-', alpha=1,color="blue")
+
+
+
+plt.axis('off') 
+plt.style.use('dark_background')
+plt.show()
